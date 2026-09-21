@@ -1,0 +1,36 @@
+{
+  "name": "stillwater",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["frontend"],
+  "engines": { "node": ">=22.0.0" },
+  "scripts": {
+    "compile": "node scripts/compile-contract.mjs && npm run copy:managed",
+    "copy:managed": "node scripts/sync-managed.mjs",
+    "verify:artifacts": "node scripts/sync-managed.mjs --check",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit && npm run typecheck -w stillwater-web",
+    "env:up": "docker compose up -d --wait",
+    "env:down": "docker compose down",
+    "build": "npm run verify:artifacts && npm run build -w stillwater-web && node scripts/copy-build.mjs",
+    "check": "npm run verify:artifacts && npm test && npm run typecheck && npm run build"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-js": "2.5.1",
+    "@midnight-ntwrk/compact-runtime": "0.16.0",
+    "@midnight-ntwrk/midnight-js-contracts": "4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-network-id": "4.1.1",
+    "@midnight-ntwrk/midnight-js-protocol": "4.1.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-types": "4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.0",
+    "typescript": "5.7.3",
+    "vitest": "4.1.0"
+  }
+}
