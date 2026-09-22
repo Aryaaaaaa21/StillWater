@@ -1,0 +1,117 @@
+pragma language_version >=0.23.0;
+
+import CompactStandardLibrary;
+
+// Stillwater is a self-attested private eligibility demonstration, NOT an
+// issuer-authenticated credential or a Sybil-resistant allowlist. A claimant
+// chooses both their score and invite secret. issuer_id is public metadata only.
+// Public: policy, room, operator commitment, counts, tokens, receipts, history.
+// Private witnesses: the score, invite secret, and operator secret themselves.
+export ledger claim_threshold: Uint<64>;
+export ledger room_id: Bytes<32>;
+export ledger claim_expiry: Uint<64>;
+export ledger issuer_id: Bytes<32>;
+export ledger operator_commitment: Bytes<32>;
+export ledger room_open: Boolean;
+export ledger claims: Counter;
+export ledger claim_limit: Uint<32>;
+export ledger redeemed_tokens: Set<Bytes<32>>;
+export ledger claim_receipts: Map<Bytes<32>, Bytes<32>>;
+export sealed ledger release: Bytes<32>;
+
+// Non-exported does not mean confidential: this history is public ledger data.
+// Retained for the contract's lifetime so rotation cannot revive an old room ID.
+ledger room_history: Set<Bytes<32>>;
+
+witness get_private_score(): Uint<64>;
+witness get_invite_secret(): Bytes<32>;
+witness operator_secret(): Bytes<32>;
+
+constructor(
+    threshold: Uint<64>,
+    room: Bytes<32>,
+    expiry: Uint<64>,
+    issuer: Bytes<32>,
+    operator_hash: Bytes<32>,
+    limit: Uint<32>
+) {
+    assert(threshold <= 100, "Threshold must be between 0 and 100");
+    assert(limit > 0, "Claim capacity must be positive");
+    claim_threshold = disclose(threshold);
+    room_id = disclose(room);
+    claim_expiry = disclose(expiry);
+    issuer_id = disclose(issuer);
+    operator_commitment = disclose(operator_hash);
+    room_open = true;
+    claim_limit = disclose(limit);
+    room_history.insert(disclose(room));
+    release = pad(32, "stillwater:release:r1");
+}
+
+// Proves only that a self-selected hidden score is in [threshold, 100].
+// One redemption per secret per room; a fresh secret permits another claim.
+export circuit claim_access(): [] {
+    assert(disclose(room_open), "The room is locked");
+    assert(blockTimeLt(disclose(claim_expiry)), "This access pass has expired");
+    assert(disclose(claims) < disclose(claim_limit), "Claim capacity reached");
+
+    const score = get_private_score();
+    assert(score <= 100, "Private score must be between 0 and 100");
+    assert(score >= claim_threshold, "Private score does not meet the rule");
+
+    const invite = get_invite_secret();
+    const token = derive_redemption_token(invite, room_id);
+    assert(!redeemed_tokens.member(disclose(token)), "This invite has already been redeemed");
+
+    redeemed_tokens.insert(disclose(token));
+    claim_receipts.insert(disclose(token), disclose(room_id));
+    claims.increment(1);
+}
+
+// New rooms get a fresh capacity counter; redemption tokens and receipts remain
+// append-only across rooms. Rotation always opens the NEW room, never an old ID.
+export circuit rotate_room(
+    new_threshold: Uint<64>,
+    new_room: Bytes<32>,
+    new_expiry: Uint<64>,
+    new_issuer: Bytes<32>,
+    new_limit: Uint<32>
+): [] {
+    const secret = operator_secret();
+    assert(operator_commitment == operator_commitment_for(secret), "Operator authorization failed");
+    assert(new_threshold <= 100, "Threshold must be between 0 and 100");
+    assert(new_limit > 0, "Claim capacity must be positive");
+    assert(!room_history.member(disclose(new_room)), "Room ID has already been used");
+    room_history.insert(disclose(new_room));
+    claims.resetToDefault();
+    claim_threshold = disclose(new_threshold);
+    room_id = disclose(new_room);
+    claim_expiry = disclose(new_expiry);
+    issuer_id = disclose(new_issuer);
+    claim_limit = disclose(new_limit);
+    room_open = true;
+}
+
+export circuit lock_room(): [] {
+    const secret = operator_secret();
+    assert(operator_commitment == operator_commitment_for(secret), "Operator authorization failed");
+    room_open = false;
+}
+
+export circuit unlock_room(): [] {
+    const secret = operator_secret();
+    assert(operator_commitment == operator_commitment_for(secret), "Operator authorization failed");
+    room_open = true;
+}
+
+export pure circuit operator_commitment_for(secret: Bytes<32>): Bytes<32> {
+    return persistentHash<Vector<2, Bytes<32>>>([pad(32, "stillwater:operator:r1"), secret]);
+}
+
+export pure circuit derive_redemption_token(invite: Bytes<32>, room: Bytes<32>): Bytes<32> {
+    return persistentHash<Vector<3, Bytes<32>>>([
+        pad(32, "stillwater:redeem:r1"),
+        invite,
+        room
+    ]);
+}
