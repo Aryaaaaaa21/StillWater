@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "contract": "stillwater",
+  "compilerVersion": "0.31.1",
+  "runtimeVersion": "0.16.0",
+  "source": "contracts/stillwater.compact",
+  "sourceSha256": "4822232968b0a1d991a57fdd02862370c7b632a9db3e0890e3df153c10f4f720",
+  "files": {
+    "compiler/contract-info.json": "925e438fda84d14ae1136c57dbe5be95f703d9a0c00cc781474504ea47ad82ac",
+    "contract/index.d.ts": "b6fb63c12e857807af4e9f22c4ecb8bcdacf4612699381e20393b1a162ccccb5",
+    "contract/index.js": "d089c8cd17f9a5bc1391f8e17ed7249bf31ab86ace4fb47add828466db29fd00",
+    "contract/index.js.map": "c5755d9837d25628a675aa1529350cdab4ab35b7c3a5018264d06d1ad93aec30",
+    "keys/claim_access.prover": "787f7b860e69e270a33361a4d170b9d146bfe6c322f4b21006c1846ee7701788",
+    "keys/claim_access.verifier": "851815ceb82968fdc4ad59984a6fcbafb746a251d11445720f183034d6087fb4",
+    "keys/lock_room.prover": "8c89cacb1ea4ac29483c6587b29ffe0393322223889c54bc3f90facbcad5ed96",
+    "keys/lock_room.verifier": "66b88d7b8fd937bb3df94b277a4ef1737445b714de31270747cd564b7478fa9a",
+    "keys/rotate_room.prover": "2d7a56f197bbf2641c1bcbcfa55fcf63e4b55dca9ed6011c64a66ad9957a4fea",
+    "keys/rotate_room.verifier": "1bb310bc41b313aba557ac952f8c05fa124697670982e7070f6c9bc311936a11",
+    "keys/unlock_room.prover": "6868ebcb4dc274780b112305a680552c043e0332818f7b84f31f8aa88c7f72f7",
+    "keys/unlock_room.verifier": "00598d4ee67d977d55e70cd657e0c8a637e99b7a306e2ba4285d1b38380aaf4d",
+    "zkir/claim_access.bzkir": "661d7c2d7f4d20db6447f66b5fbedfc41c048addcc215acfde0c6f0fa6f2041d",
+    "zkir/claim_access.zkir": "3ded76ec564bcb7b3979f26dcf0fa54d42f672e702f2d6d4e71dd2cfe8476925",
+    "zkir/lock_room.bzkir": "0118ef515a0636670db6247bc1d3711170b827d7db2a292267c1f3ec207f2b30",
+    "zkir/lock_room.zkir": "afd891429fc5e0a41c2e521626d8efdf5c3b81fa98423fdb0324c28c2e65be12",
+    "zkir/rotate_room.bzkir": "b7d42d77a73e045764ecf16744329d7186abd1ba02ae611e48fdd7411eb43773",
+    "zkir/rotate_room.zkir": "4bd0f5e1527f52531aec41a6ad4f89752601602f5fc675758001547778fe930b",
+    "zkir/unlock_room.bzkir": "41a65f6740144c70dd06589fd27e68ba45c40671ea0626759d7a8c47ecb9779d",
+    "zkir/unlock_room.zkir": "b52ce72e05038715ac4b794facec89ee3fbc3b320842892c4d0eb1d650fa979b"
+  }
+}
