@@ -3,6 +3,7 @@
 > Private allowlist access and selective disclosure on Midnight Network.
 
 [![CI Status](https://github.com/Aryaaaaaa21/StillWater/actions/workflows/ci.yaml/badge.svg)](https://github.com/Aryaaaaaa21/StillWater/actions/workflows/ci.yaml)
+[![Live Demo](https://img.shields.io/badge/Demo-still--water--zeta.vercel.app-244c3c.svg)](https://still-water-zeta.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight%20Preview%20%2F%20Preprod-244c3c.svg)](https://midnight.network)
 [![Compact Language](https://img.shields.io/badge/Compact-%3E%3D0.23.0-darkgreen.svg)](https://docs.midnight.network)
@@ -10,7 +11,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7.3-3178c6.svg)](https://www.typescriptlang.org)
 [![Tests](https://img.shields.io/badge/Vitest-18%20Passed-success.svg)](src/test/stillwater.test.ts)
 
-[Overview](#overview) • [Live Preprod Evidence](#live-on-chain-deployment--evidence) • [Why Stillwater](#why-stillwater) • [Architecture](#architecture) • [Product Walkthrough](#product-walkthrough) • [Getting Started](#getting-started) • [Circuit Reference](#contract--circuit-reference) • [Privacy Model](#privacy-model--trust-boundary) • [Verification](#verification-checklist)
+[Overview](#overview) • [Live App](https://still-water-zeta.vercel.app/) • [Live Preprod Evidence](#live-on-chain-deployment--evidence) • [Why Stillwater](#why-stillwater) • [Architecture](#architecture) • [Product Walkthrough](#product-walkthrough) • [Getting Started](#getting-started) • [Circuit Reference](#contract--circuit-reference) • [Privacy Model](#privacy-model--trust-boundary) • [Verification](#verification-checklist)
 
 ---
 
@@ -43,10 +44,12 @@ Stillwater is deployed, tested, and verified on the **Midnight Preprod Network**
 
 | Evidence Parameter | On-Chain Value / Direct Link |
 |---|---|
+| **Live Production App** | [https://still-water-zeta.vercel.app/](https://still-water-zeta.vercel.app/) |
 | **Network** | `Midnight Preprod` |
-| **Transaction ID** | [`3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897`](https://explorer.1am.xyz/tx/3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897?network=preprod) |
-| **Transaction Hash** | `6596562024d9d0efaa6de5b4a3bb0a3b10eaf2b658b83cd4b94a13baa7d7762f` |
-| **1AM Block Explorer** | [https://explorer.1am.xyz/tx/3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897?network=preprod](https://explorer.1am.xyz/tx/3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897?network=preprod) |
+| **Contract Address** | [`a791f2a7397ae3294d530e9bc6186d45175b2f362371ae87f54f4bd3ed368b2a`](https://explorer.1am.xyz/contract/a791f2a7397ae3294d530e9bc6186d45175b2f362371ae87f54f4bd3ed368b2a) |
+| **Deployment Transaction** | [`25a637c4d99a5f239dec314a5ac7b54748328a4ee98c02472cf1c3fc573749e0`](https://explorer.1am.xyz/tx/25a637c4d99a5f239dec314a5ac7b54748328a4ee98c02472cf1c3fc573749e0?network=preprod) |
+| **Transaction Hash** | `6596562024d9d0efaa6de5b4a3bb0a3b10eaf2b658b83cd4b94a13baa7d7762f` / [`3f441d45...`](https://explorer.1am.xyz/tx/3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897?network=preprod) |
+| **1AM Block Explorer** | [https://explorer.1am.xyz/contract/a791f2a7397ae3294d530e9bc6186d45175b2f362371ae87f54f4bd3ed368b2a](https://explorer.1am.xyz/contract/a791f2a7397ae3294d530e9bc6186d45175b2f362371ae87f54f4bd3ed368b2a) |
 
 ---
 
@@ -653,6 +656,8 @@ Configured via [`vercel.json`](vercel.json):
 }
 ```
 
+- **Live Production URL:** [https://still-water-zeta.vercel.app/](https://still-water-zeta.vercel.app/)
+
 ---
 
 ## Design System
@@ -732,8 +737,9 @@ Semantic Design Tokens:
 | **Static Typecheck** | **Complete** | `npm run typecheck` exits with code 0 across all workspaces |
 | **Managed ZK Assets** | **Complete** | `npm run verify:artifacts` confirms all prover/verifier keys |
 | **Production Build** | **Complete** | `npm run build` succeeds, generating bundled output in `dist/` |
+| **Live Production App** | **Complete** | Deployed on Vercel at [https://still-water-zeta.vercel.app/](https://still-water-zeta.vercel.app/) |
 | **Wallet Connector** | **Complete** | Detects 1AM, Lace, and Nightly Midnight namespaces |
-| **Preprod Deployment** | **Complete** | Tx Hash [`65965620...`](https://explorer.1am.xyz/tx/3f441d45ebefbd5dc33841ebd4b2821a818ca2e75263fdcfb49298557fc94897?network=preprod) verified on 1AM Explorer |
+| **Preprod Deployment** | **Complete** | Contract [`a791f2a7...`](https://explorer.1am.xyz/contract/a791f2a7397ae3294d530e9bc6186d45175b2f362371ae87f54f4bd3ed368b2a) / Tx [`25a637c4...`](https://explorer.1am.xyz/tx/25a637c4d99a5f239dec314a5ac7b54748328a4ee98c02472cf1c3fc573749e0?network=preprod) verified on 1AM Explorer |
 | **Local Devnet Support** | **Complete** | Validated Docker Compose definition in [`compose.yml`](compose.yml) |
 | **CI Automation** | **Complete** | GitHub Actions workflow configured in [`.github/workflows/ci.yaml`](.github/workflows/ci.yaml) |
 
