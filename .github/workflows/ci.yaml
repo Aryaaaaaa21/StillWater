@@ -1,0 +1,31 @@
+name: Stillwater verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install and verify Compact compiler 0.31.1
+        run: |
+          bash scripts/install-compact.sh
+          echo "$HOME/.compact/bin" >> "$GITHUB_PATH"
+      - name: Install dependencies
+        run: npm ci
+      - name: Compile Compact contract and sync browser artifacts
+        run: npm run compile
+      - name: Run contract tests
+        run: npm test
+      - name: Typecheck root and frontend
+        run: npm run typecheck
+      - name: Build frontend
+        run: npm run build

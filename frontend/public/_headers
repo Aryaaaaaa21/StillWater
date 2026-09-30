@@ -1,0 +1,8 @@
+/*
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+
+/managed/*
+  Cache-Control: public, max-age=0, must-revalidate
